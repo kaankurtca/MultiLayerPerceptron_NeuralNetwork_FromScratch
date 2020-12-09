@@ -47,10 +47,7 @@ for ind in range(4):
 fig, axs = plt.subplots(4,4)
 for i in range(4):
     axs[0,i].imshow(noisy1_tum[i], cmap='gray')
-for i in range(4):
     axs[1,i].imshow(noisy2_tum[i], cmap='gray')
-for i in range(4):
     axs[2, i].imshow(noisy3_tum[i], cmap='gray')
-for i in range(4):
     axs[3, i].imshow(noisy4_tum[i], cmap='gray')
 plt.show()
