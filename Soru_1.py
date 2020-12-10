@@ -20,7 +20,7 @@ images = np.array([image1] + [image2] + [image3] + [image4]) #bozuk ve gürült�
 noisyAll=np.zeros((4,5,10))
 distordedAll=np.zeros((4,5,10))     # gürültülü ve bozuk örüntüleri yerleştireceğimiz matrisler tanımlandı.
 for i,image in enumerate(images):
-    noisy = image + 0.5 * np.random.rand(5, 10)
+    noisy = image + 0.25 * np.random.rand(5, 10)
     noisy = noisy / noisy.max()
     noisyAll[i] = noisy     #her örüntü için gri seviye gürültü eklendi.
     rand_index = np.random.randint(0, 32)
@@ -30,10 +30,10 @@ for i,image in enumerate(images):
 
 fig, axs = plt.subplots(3,4)
 for i in range(4):
-    axs[0,i].imshow(images[i], cmap='gray')
-    axs[1,i].imshow(noisyAll[i], cmap='gray')
-    axs[2, i].imshow(distordedAll[i], cmap='gray')
-plt.show()  #burada, öncelikle eğitim kümemize koyacağımız 12 orjinal,gürültülü ve bozuk örüntüler çizdirildi.
+    axs[0,i].imshow(images[i], cmap='gray_r')
+    axs[1,i].imshow(noisyAll[i], cmap='gray_r')
+    axs[2, i].imshow(distordedAll[i], cmap='gray_r')
+#plt.show()  #burada, öncelikle eğitim kümemize koyacağımız 12 orjinal,gürültülü ve bozuk örüntüler çizdirildi.
 
 images=np.where(images==0,0.1,0.9)
 distordedAll=np.where(distordedAll==0,0.1,0.9) #matrislerdeki 1->0.9 , 0->0.1 yapıldı
@@ -43,7 +43,11 @@ noisyAllVector=noisyAll.reshape(4,50)
 distordedAllVector=distordedAll.reshape(4,50) #örüntüler ağa vektör şeklinde verilebilmesi için vektörize edildi.
 
 temp=np.concatenate([imagesVector,noisyAllVector],axis=0)
-trainSet=np.concatenate([temp,distordedAllVector],axis=0) #vektörize edilen örüntüler birleştirldi ve eğitim kümesi oluşturuldu.
+x_trainSet=np.concatenate([temp,distordedAllVector],axis=0) #vektörize edilen örüntüler birleştirldi ve eğitim kümesi girdileri oluşturuldu.
+
+y0_train=np.array([0,0,1,1,0,0,1,1,0,0,1,1]).reshape(-1,1)
+y1_train=np.array([0,1,0,1,0,1,0,1,0,1,0,1]).reshape(-1,1)
+y_trainSet=np.concatenate([y0_train,y1_train],axis=1)   # L->00, T->01, V->10, A->11 şeklinde sınıflandırıldı ve eğitim kümesi çıktıları oluşturuldu.
 
 testİmages=np.zeros((4,5,10))
 for i,image in enumerate(images):
@@ -51,4 +55,7 @@ for i,image in enumerate(images):
     test = test / test.max()
     testİmages[i] = test     #Test için farklı olarak 4 tane gürültülü örüntü oluşturuldu.
 
-testSet=testİmages.reshape(4,50)    #örüntüler ağa vektör şeklinde verilebilmesi için vektörize edildi.
+x_testSet=testİmages.reshape(4,50)    #örüntüler ağa vektör şeklinde verilebilmesi için vektörize edildi.
+y0_test=np.array([0,0,1,1]).reshape(-1,1)
+y1_test=np.array([0,1,0,1]).reshape(-1,1)
+y_testSet=np.concatenate([y0_test,y1_test],axis=1)      # L->00, T->01, V->10, A->11 şeklinde sınıflandırıldı ve test kümesi çıktıları oluşturuldu.
