@@ -73,12 +73,17 @@ mlp=MultiP()
 mlp.train(items,targets,500)
 # cka.egitim(items, targets, 300, 0.4)
 
-
+testMSE=0
 for k in range(len(testSet)):
-
-
     output=mlp.feedForward(testSet[k])
-    print(output)
-    print(targetTest[k])
+    print(output.astype(float))
+    testDesired=targetTest[k].reshape(-1,1)
+    print(testDesired)
+
+    error=mlp.meanSE(testDesired,output)
+    testMSE += error
+print("Test ortalama kare hatası: ",testMSE)
+
+
 
 

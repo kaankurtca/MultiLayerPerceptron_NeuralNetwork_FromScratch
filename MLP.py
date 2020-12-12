@@ -1,11 +1,11 @@
 import numpy as np
 
 class MultiP():
-    def __init__(self):
+    def __init__(self,inputDim=50,firstLayer=20,secondLayer=10,outputDim=4):
 
-        self.w1=0.6*np.random.rand(20,51)-0.3
-        self.w2=0.6*np.random.rand(10,21)-0.3
-        self.w3=0.6*np.random.rand(4,11)-0.3
+        self.w1=0.6*np.random.rand(firstLayer,inputDim+1)-0.3
+        self.w2=0.6*np.random.rand(secondLayer,firstLayer+1)-0.3
+        self.w3=0.6*np.random.rand(outputDim,secondLayer+1)-0.3
 
     def feedForward(self,X):
         self.X=X    # 1x50
