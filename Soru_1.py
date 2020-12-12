@@ -67,8 +67,8 @@ targets = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1], [1, 
 trainAll=np.concatenate([items, targets],axis=1)
 
 # # create a Multilayer Perceptron with one hidden layer
-cka = CKA(50, [20, 10], 4)
-mlp=MultiP()
+# cka = CKA(50, [20, 10], 4)
+mlp=MultiP(50,20,10,4)
 
 mlp.train(items,targets,500)
 # cka.egitim(items, targets, 300, 0.4)
