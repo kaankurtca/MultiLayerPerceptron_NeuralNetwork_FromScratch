@@ -72,7 +72,7 @@ class MultiP():
 
                 toplam_error += self.meanSE(target, out)
             if((i+1)%100==0):
-                print("Ortalama Kare Hata: {}, iterasyon sayısı: {}".format(toplam_error / X.shape[0], i + 1))
+                print("Eğitim için Ortalama Kare Hata: {}, iterasyon sayısı: {}".format(toplam_error / X.shape[0], i + 1))
                 # her 100 iterasyonda bir hatamız yazdırılıyor.
 
     def sigmoid(self, x):
