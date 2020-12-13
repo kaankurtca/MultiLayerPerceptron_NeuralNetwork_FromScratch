@@ -1,7 +1,8 @@
 import numpy as np
 
 class MultiP():
-    def __init__(self,inputDim=50,firstLayer=20,secondLayer=10,outputDim=4):
+    def __init__(self,inputDim=50,firstLayer=20,secondLayer=10,outputDim=4,act="sigmoid"):
+        self.act=act  # aktivasyon fonksiyonumuzu "tanh" ya da "sigmoid" olarak belirleyebiliyoruz.
 
         # Çok Katmanlı Algılayıcımız iki gizli katmandan oluşuyor. Giriş, çıkış ve katmanlardaki nöron sayıları...
         # Class'ı çağırırken girdi olarak verilebiliyor.
@@ -71,16 +72,23 @@ class MultiP():
                 self.gradDescent(lr)       # grad Derscent ile ağırlık güncelleme
 
                 toplam_error += self.meanSE(target, out)
-            if((i+1)%100==0):
+            if((i+1)%10==0):
                 print("Eğitim için Ortalama Kare Hata: {}, iterasyon sayısı: {}".format(toplam_error / X.shape[0], i + 1))
                 # her 100 iterasyonda bir hatamız yazdırılıyor.
 
     def sigmoid(self, x):
-        y = 1.0 / (1 + np.exp(-x))
+        if self.act=="sigmoid":
+            y = 1.0 / (1 + np.exp(-x))
+        elif self.act =="tanh" :
+            y= (np.exp(x)-np.exp(-x))/(np.exp(x)+np.exp(-x))
         return y
 
     def sigmoid_derivative(self, x):
-        return x * (1.0 - x)
+        if self.act=="sigmoid":
+            y = x * (1.0 - x)
+        elif self.act =="tanh":
+            y= 1 - x**2
+        return y
 
     def meanSE(self, hedef, cıkıs):
         return np.average(0.5*(hedef - cıkıs) ** 2)
