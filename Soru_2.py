@@ -29,7 +29,7 @@ trainSet_y=trainSet[:,-3:]  # Son 3 sütun sınıf bilgisi
 mlp=MultiP(4,30,20,3)       # Class çağrıldı (giriş 4 boyutlu,gizli katmanlar 32'şer nöron, çıkış 3 boyutlu.)
 
 
-mlp.train(trainSet_X,trainSet_y,500)  #eğitim yapıldı.
+mlp.train(trainSet_X,trainSet_y,100)  #eğitim yapıldı.
 
 
 testSet=np.delete(dataset,trainSet_Index,axis=0)    # Test kümesi oluşturuldu.  # 30x7 array
@@ -43,8 +43,8 @@ print("\n\n", "Tahmin edilen değerler ve test verileri: ", "\n")
 for k in range(len(testSet)):
     output = np.around(mlp.feedForward(testSet_X[k]).reshape(-1, 1),3)  # tahmin edilen çıkış
     testDesired = np.around((testSet_y[k].reshape(-1, 1)),3)  # arzu edilen çıkış
-    if (sum(np.around(output) - testDesired) < 0.01):
-        correctPrediction += 1
+    if(np.array_equal(testDesired,np.around(output)) == True):
+        correctPrediction += 1                         # tahminin yuvarlanmış değeri ve gerçek değer eşit ise 1 arttırılıyor.
     outAndDesired = np.concatenate([output, testDesired], axis=1)  # karşılaştırma daha iyi gözlemlenmesi için birleştirilerek yazdırıldı.
     print("\n\n", outAndDesired, "\n\n")
     error=mlp.meanSE(testDesired,output)

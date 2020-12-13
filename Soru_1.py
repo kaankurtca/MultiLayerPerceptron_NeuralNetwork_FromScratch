@@ -53,7 +53,7 @@ trainSet = np.concatenate([temp, distordedAllVector], axis=0)  # vektörize edil
 
 testİmages = np.zeros((8, 5, 10))
 for i, image in enumerate(images):
-    test = image + 0.75 * np.random.rand(5, 10)
+    test = image + 0.5 * np.random.rand(5, 10)
     test = test / test.max()
     testİmages[i] = test
     rand_index = np.random.randint(0, 32)
@@ -86,8 +86,8 @@ print("\n\n", "Tahmin edilen değerler ve test verileri: ", "\n")
 for k in range(len(testSet)):
     output=np.around(mlp.feedForward(testSet[k]).reshape(-1,1),3)    # tahmin edilen çıkış
     testDesired=np.around(targetTest[k].reshape(-1,1),3)    # arzu edilen çıkış
-    if(sum(np.around(output)-testDesired) < 0.01):
-        correctPrediction += 1
+    if(sum(np.around(output)-testDesired) == 0.0):
+        correctPrediction += 1                  # tahminin yuvarlanmış değeri ve gerçek değer eşit ise 1 arttırılıyor.
     outAndDesired=np.concatenate([output,testDesired],axis=1)   #karşılaştırma daha iyi gözlemlenmesi için birleştirilerek yazdırıldı.
     print("\n\n",outAndDesired,"\n\n")
     error=mlp.meanSE(testDesired,output)
