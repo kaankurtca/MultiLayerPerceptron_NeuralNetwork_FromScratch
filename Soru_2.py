@@ -37,14 +37,17 @@ np.random.shuffle(testSet)                          #karıştırıldı.
 testSet_X=testSet[:,:4]                             # İlk 4 sütun girişler
 testSet_y=testSet[:,-3:]                            # Son 3 sütun sınıf bilgisi
 
-
+correctPrediction=0
 testMSE=0
 print("\n\n", "Tahmin edilen değerler ve test verileri: ", "\n")
 for k in range(len(testSet)):
     output = np.around(mlp.feedForward(testSet_X[k]).reshape(-1, 1),3)  # tahmin edilen çıkış
     testDesired = np.around((testSet_y[k].reshape(-1, 1)),3)  # arzu edilen çıkış
+    if (sum(np.around(output) - testDesired) < 0.01):
+        correctPrediction += 1
     outAndDesired = np.concatenate([output, testDesired], axis=1)  # karşılaştırma daha iyi gözlemlenmesi için birleştirilerek yazdırıldı.
     print("\n\n", outAndDesired, "\n\n")
     error=mlp.meanSE(testDesired,output)
     testMSE += error
 print("Test ortalama kare hatası: ",testMSE/len(testSet))
+print("{} veriden {} tanesi doğru sınıflandırıldı.".format(len(testSet),correctPrediction))

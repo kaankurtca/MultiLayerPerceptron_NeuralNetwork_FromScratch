@@ -80,18 +80,20 @@ trainSet_y = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1], [
 mlp=MultiP(50,20,10,4)  #İlk gizli katman 20 nöron, İkinci gizli katman 10 nöron
 mlp.train(trainSet,trainSet_y,500)
 
-
+correctPrediction=0
 testMSE=0
 print("\n\n", "Tahmin edilen değerler ve test verileri: ", "\n")
 for k in range(len(testSet)):
     output=np.around(mlp.feedForward(testSet[k]).reshape(-1,1),3)    # tahmin edilen çıkış
-    testDesired=np.around(targetTest[k].reshape(-1,1),3)             # arzu edilen çıkış
+    testDesired=np.around(targetTest[k].reshape(-1,1),3)    # arzu edilen çıkış
+    if(sum(np.around(output)-testDesired) < 0.01):
+        correctPrediction += 1
     outAndDesired=np.concatenate([output,testDesired],axis=1)   #karşılaştırma daha iyi gözlemlenmesi için birleştirilerek yazdırıldı.
     print("\n\n",outAndDesired,"\n\n")
     error=mlp.meanSE(testDesired,output)
     testMSE += error        # hata hesabı yapıldı.
 print("Test ortalama kare hatası: ",testMSE)
-
+print("{} veriden {} tanesi doğru sınıflandırıldı.".format(len(testSet),correctPrediction))
 plt.show()
 
 
