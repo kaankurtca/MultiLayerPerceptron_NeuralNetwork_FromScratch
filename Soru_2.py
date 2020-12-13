@@ -19,9 +19,9 @@ trainSet=dataset[trainSet_Index,:]  #her sınıftan rastgele 40'ar tane seçiler
 np.random.shuffle(trainSet)         #karıştırıldı
 
 
-for i in range(trainSet.shape[1]):
-    for j in range(trainSet.shape[0]):
-         trainSet[j,i] = (trainSet[j,i]- np.min(trainSet[:,i])) / (np.max(trainSet[:,i])- np.min(trainSet[:,i]))
+# for i in range(trainSet.shape[1]):
+#     for j in range(trainSet.shape[0]):
+#          trainSet[j,i] = (trainSet[j,i]- np.min(trainSet[:,i])) / (np.max(trainSet[:,i])- np.min(trainSet[:,i]))
 
 trainSet_X=trainSet[:,:4]   # İlk 4 sütun girişler
 trainSet_y=trainSet[:,-3:]  # Son 3 sütun sınıf bilgisi
