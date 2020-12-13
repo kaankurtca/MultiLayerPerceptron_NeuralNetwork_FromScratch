@@ -78,7 +78,7 @@ trainSet_y = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1], [
 
 
 mlp=MultiP(50,20,10,4)  #İlk gizli katman 20 nöron, İkinci gizli katman 10 nöron
-mlp.train(trainSet,trainSet_y,500)
+mlp.train(trainSet,trainSet_y,500,0.4)
 
 correctPrediction=0
 testMSE=0

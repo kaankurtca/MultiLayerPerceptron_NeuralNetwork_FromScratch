@@ -29,7 +29,7 @@ trainSet_y=trainSet[:,-3:]  # Son 3 sütun sınıf bilgisi
 mlp=MultiP(4,30,20,3)       # Class çağrıldı (giriş 4 boyutlu,gizli katmanlar 32'şer nöron, çıkış 3 boyutlu.)
 
 
-mlp.train(trainSet_X,trainSet_y,100)  #eğitim yapıldı.
+mlp.train(trainSet_X,trainSet_y,100,0.4)  #eğitim yapıldı.
 
 
 testSet=np.delete(dataset,trainSet_Index,axis=0)    # Test kümesi oluşturuldu.  # 30x7 array

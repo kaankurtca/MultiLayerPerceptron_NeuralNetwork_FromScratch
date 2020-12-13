@@ -55,7 +55,7 @@ class MultiP():
         x=self.X_bias.reshape(1,-1)                   # yerel gradyenler, ilgili katmanın girişleri ve öğrenme hızı kullanılarak
         self.w1 += lr * np.dot(self.grad_1, x)        # ağırlıklar güncellendi.
 
-    def train(self,X,y,epochs):
+    def train(self,X,y,epochs,lr):
 
         for i in range(epochs):
             toplam_error = 0
@@ -68,7 +68,7 @@ class MultiP():
                 error=target-out        #geri yayılım için kullanılacak olan hata
 
                 self.backProp(error)        # geri yayılım ile yerel gradyen hesapları
-                self.gradDescent(0.4)       # grad Derscent ile ağırlık güncelleme
+                self.gradDescent(lr)       # grad Derscent ile ağırlık güncelleme
 
                 toplam_error += self.meanSE(target, out)
             if((i+1)%10==0):
