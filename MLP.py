@@ -71,9 +71,9 @@ class MultiP():
                 self.gradDescent(0.4)       # grad Derscent ile ağırlık güncelleme
 
                 toplam_error += self.meanSE(target, out)
-            if((i+1)%25==0):
+            if((i+1)%10==0):
                 print("Ortalama Kare Hata: {}, iterasyon sayısı: {}".format(toplam_error / X.shape[0], i + 1))
-                # her 25 iterasyonda bir hatamız yazdırılıyor.
+                # her 10 iterasyonda bir hatamız yazdırılıyor.
 
     def sigmoid(self, x):
         y = 1.0 / (1 + np.exp(-x))

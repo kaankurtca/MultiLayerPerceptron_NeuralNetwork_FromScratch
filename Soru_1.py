@@ -83,8 +83,8 @@ mlp.train(trainSet,trainSet_y,500)
 
 testMSE=0
 for k in range(len(testSet)):
-    output=mlp.feedForward(testSet[k]).reshape(-1,1)    # tahmin edilen çıkış
-    testDesired=targetTest[k].reshape(-1,1)             # arzu edilen çıkış
+    output=np.around(mlp.feedForward(testSet[k]).reshape(-1,1),3)    # tahmin edilen çıkış
+    testDesired=np.around(targetTest[k].reshape(-1,1),3)             # arzu edilen çıkış
     outAndDesired=np.concatenate([output,testDesired],axis=1)   #karşılaştırma daha iyi gözlemlenmesi için birleştirilerek yazdırıldı.
     print("\n\n",outAndDesired,"\n\n")
     error=mlp.meanSE(testDesired,output)
