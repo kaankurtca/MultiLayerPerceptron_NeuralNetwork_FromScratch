@@ -53,7 +53,7 @@ trainSet = np.concatenate([temp, distordedAllVector], axis=0)  # vektörize edil
 
 testİmages = np.zeros((8, 5, 10))
 for i, image in enumerate(images):
-    test = image + 0.4 * np.random.rand(5, 10)
+    test = image + 0.75 * np.random.rand(5, 10)
     test = test / test.max()
     testİmages[i] = test
     rand_index = np.random.randint(0, 32)
@@ -65,7 +65,7 @@ fig1.suptitle("Test Kümesi Örüntüleri")
 for i in range(4):
     axs[0, i].imshow(testİmages[i],cmap='gray')
     axs[1, i].imshow(testİmages[i+4],cmap='gray')       # Test Kümesi Çizdirildi
-plt.show()
+
 
 
 testSet = testİmages.reshape(8, 50)  # örüntüler ağa vektör şeklinde verilebilmesi için vektörize edildi.
@@ -82,6 +82,7 @@ mlp.train(trainSet,trainSet_y,500)
 
 
 testMSE=0
+print("\n\n", "Tahmin edilen değerler ve test verileri: ", "\n")
 for k in range(len(testSet)):
     output=np.around(mlp.feedForward(testSet[k]).reshape(-1,1),3)    # tahmin edilen çıkış
     testDesired=np.around(targetTest[k].reshape(-1,1),3)             # arzu edilen çıkış
@@ -90,6 +91,8 @@ for k in range(len(testSet)):
     error=mlp.meanSE(testDesired,output)
     testMSE += error        # hata hesabı yapıldı.
 print("Test ortalama kare hatası: ",testMSE)
+
+plt.show()
 
 
 
