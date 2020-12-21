@@ -7,9 +7,9 @@ class MultiP():
         # Çok Katmanlı Algılayıcımız iki gizli katmandan oluşuyor. Giriş, çıkış ve katmanlardaki nöron sayıları...
         # Class'ı çağırırken girdi olarak verilebiliyor.
 
-        self.w1=0.6*np.random.rand(firstLayer,inputDim+1)-0.3
-        self.w2=0.6*np.random.rand(secondLayer,firstLayer+1)-0.3
-        self.w3=0.6*np.random.rand(outputDim,secondLayer+1)-0.3     # Rastgele sayılar ile ağırlıklar oluşturuldu.
+        self.w1=1*np.random.rand(firstLayer,inputDim+1)-0.5
+        self.w2=1*np.random.rand(secondLayer,firstLayer+1)-0.5
+        self.w3=1*np.random.rand(outputDim,secondLayer+1)-0.5     # Rastgele sayılar ile ağırlıklar oluşturuldu.
 
     def feedForward(self,X):
         self.X=X
@@ -72,9 +72,12 @@ class MultiP():
                 self.gradDescent(lr)       # grad Derscent ile ağırlık güncelleme
 
                 toplam_error += self.meanSE(target, out)
+            ort_kareHata = toplam_error / X.shape[0]
             if((i+1)%10==0):
-                print("Eğitim için Ortalama Kare Hata: {}, iterasyon sayısı: {}".format(toplam_error / X.shape[0], i + 1))
-                # her 100 iterasyonda bir hatamız yazdırılıyor.
+                print("Eğitim için Ortalama Kare Hata: {}, iterasyon sayısı: {}".format(ort_kareHata, i + 1))
+                # her 10 iterasyonda bir hatamız yazdırılıyor.
+            if(ort_kareHata<0.00001):
+                break
 
     def sigmoid(self, x):
         if self.act=="sigmoid":

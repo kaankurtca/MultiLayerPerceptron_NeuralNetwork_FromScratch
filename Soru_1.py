@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from MLP_Class import CKA
 from MLP import MultiP
 
 
@@ -78,39 +77,42 @@ trainSet_y = np.array([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1], [
 
 
 n=20       # Ağ'ın Çalışma Sayısı
+# Ağ'ı 1 kez çalıştırarak gerçek değerler ve tahminler arasındaki farkı ve eğitim hatasının düşüşünü gözlemleyebiliriz.
+# Ağ'ı 5'ten daha fazla çalıştırırsak (raporda 20 kez) ortalama hata ve doğruluk oranı grafiklerini inceleyebiliriz.
 accuracy=np.zeros(n)
 MSError=np.zeros(n)
 for ind in range(n):
 
     mlp=MultiP(50,20,10,4)  #İlk gizli katman 20 nöron, İkinci gizli katman 10 nöron
-    mlp.train(trainSet,trainSet_y,100,0.4)
+    mlp.train(trainSet,trainSet_y,300,0.4)
 
     correctPrediction=0
     testMSE=0
-    # print("\n\n", "Tahmin edilen değerler ve test verileri: ", "\n")
+    print("\n\n", "Tahmin edilen değerler ve test verileri: ", "\n")
     for k in range(len(testSet)):
         output=np.around(mlp.feedForward(testSet[k]).reshape(-1,1),3)    # tahmin edilen çıkış
         testDesired=np.around(targetTest[k].reshape(-1,1),3)    # arzu edilen çıkış
         if(sum(np.around(output)-testDesired) == 0.0):
             correctPrediction += 1                  # tahminin yuvarlanmış değeri ve gerçek değer eşit ise 1 arttırılıyor.
         outAndDesired=np.concatenate([output,testDesired],axis=1)   #karşılaştırma daha iyi gözlemlenmesi için birleştirilerek yazdırıldı.
-        # print("\n\n",outAndDesired,"\n\n")
+        print("\n\n",outAndDesired,"\n\n")
         error=mlp.meanSE(testDesired,output)
         testMSE += error        # hata hesabı yapıldı.
-    # print("Test ortalama kare hatası: ",testMSE)
-    # print("{} veriden {} tanesi doğru sınıflandırıldı.".format(len(testSet),correctPrediction))
+    print("Test ortalama kare hatası: ",testMSE)
+    print("{} veriden {} tanesi doğru sınıflandırıldı.".format(len(testSet),correctPrediction))
     accuracy[ind] = correctPrediction / len(testSet)
     MSError[ind] = testMSE / len(testSet)
-plt.figure()
-plt.plot(range(n),accuracy)
-plt.xlabel("Ağ'ın iterasyon sayisi")
-plt.ylabel("doğru tahmin etme oranı")
-plt.title("Ağ 20 kez çalıştırıldı.")
-plt.figure()
-plt.plot(range(n),MSError)
-plt.xlabel("Ağ'ın iterasyon sayisi")
-plt.ylabel("ortalama kare hata")
-plt.title("Ağ 20 kez çalıştırıldı.")
+if n>=5:
+    plt.figure()
+    plt.plot(range(n),accuracy)
+    plt.xlabel("Ağ'ın iterasyon sayisi")
+    plt.ylabel("doğru tahmin etme oranı")
+    plt.title("Ağ 20 kez çalıştırıldı.")
+    plt.figure()
+    plt.plot(range(n),MSError)
+    plt.xlabel("Ağ'ın iterasyon sayisi")
+    plt.ylabel("ortalama kare hata")
+    plt.title("Ağ 20 kez çalıştırıldı.")
 plt.show()
 
 
